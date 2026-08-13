@@ -30,32 +30,10 @@ export function StatsBar({ totalCount, lastUpdated }: StatsBarProps) {
       </div>
 
       {/* Real-time sync */}
-      <div className="flex items-center space-x-3.5 rounded-xl border border-border/70 bg-card/60 p-4 shadow-sm backdrop-blur-sm">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-          <Zap className="h-5 w-5" />
-        </div>
-        <div>
-          <p className="text-xs font-medium text-muted-foreground">Synchronisation</p>
-          <p className="text-sm font-semibold text-foreground">
-            Socket.IO Actif
-          </p>
-          <p className="text-[11px] text-muted-foreground">Mises à jour bidirectionnelles</p>
-        </div>
-      </div>
+
 
       {/* Storage backend */}
-      <div className="flex items-center space-x-3.5 rounded-xl border border-border/70 bg-card/60 p-4 shadow-sm backdrop-blur-sm">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
-        <div>
-          <p className="text-xs font-medium text-muted-foreground">Stockage Image & DB</p>
-          <p className="text-sm font-semibold text-foreground">
-            S3 Bucket & MongoDB
-          </p>
-          <p className="text-[11px] text-muted-foreground">Stockage haute disponibilité</p>
-        </div>
-      </div>
+
     </div>
   );
 }

@@ -48,7 +48,7 @@ export default function HomePage() {
       console.error("Failed to load objects:", err);
       setError(
         err.message ||
-          "Impossible de contacter l'API backend. Assurez-vous que le serveur NestJS est démarré sur http://localhost:3001"
+        "Impossible de contacter l'API backend. Assurez-vous que le serveur NestJS est démarré sur http://localhost:3001"
       );
     } finally {
       setLoading(false);
@@ -166,9 +166,7 @@ export default function HomePage() {
             <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
               Collection d&apos;Objets
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Synchronisation instantanée via Socket.IO • Stockage S3 (Non-AWS) • Base MongoDB
-            </p>
+
           </div>
 
           <div className="flex items-center space-x-2">
@@ -180,9 +178,8 @@ export default function HomePage() {
               className="text-xs border-border"
             >
               <RefreshCw
-                className={`mr-1.5 h-3.5 w-3.5 ${
-                  loading ? "animate-spin" : ""
-                }`}
+                className={`mr-1.5 h-3.5 w-3.5 ${loading ? "animate-spin" : ""
+                  }`}
               />
               Rafraîchir
             </Button>
@@ -272,10 +269,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-border/60 py-6 text-center text-xs text-muted-foreground">
         <div className="container mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>Test Technique Heyama - Développeur Fullstack</span>
-          <span className="text-[11px] text-muted-foreground/80">
-            NestJS • Next.js • MongoDB • S3 Storage • Socket.IO
-          </span>
+
         </div>
       </footer>
 

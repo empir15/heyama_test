@@ -22,6 +22,20 @@ export class ObjectsService {
     private readonly objectsGateway: ObjectsGateway,
   ) {}
 
+  private formatObject(doc: any): any {
+    const json = doc.toJSON ? doc.toJSON() : { ...doc };
+    const baseUrl =
+      process.env.RENDER_EXTERNAL_URL ||
+      process.env.APP_URL ||
+      '';
+
+    if (baseUrl && json.imageUrl && json.imageUrl.includes('/uploads/')) {
+      const filename = json.imageUrl.split('/uploads/')[1];
+      json.imageUrl = `${baseUrl.replace(/\/$/, '')}/uploads/${filename}`;
+    }
+    return json;
+  }
+
   /**
    * Create a new Object: upload image to S3, save to MongoDB, emit socket event
    */
@@ -46,7 +60,7 @@ export class ObjectsService {
     });
 
     const saved = await createdObject.save();
-    const formatted = saved.toJSON();
+    const formatted = this.formatObject(saved);
 
     // 3. Emit real-time WebSocket event
     this.objectsGateway.emitObjectCreated(formatted);
@@ -58,14 +72,15 @@ export class ObjectsService {
   /**
    * Retrieve all Objects, sorted from newest to oldest
    */
-  async findAll(): Promise<ObjectItemDocument[]> {
-    return this.objectModel.find().sort({ createdAt: -1 }).exec();
+  async findAll(): Promise<any[]> {
+    const list = await this.objectModel.find().sort({ createdAt: -1 }).exec();
+    return list.map((item) => this.formatObject(item));
   }
 
   /**
    * Retrieve a single Object by its ID
    */
-  async findOne(id: string): Promise<ObjectItemDocument> {
+  async findOne(id: string): Promise<any> {
     if (!isValidObjectId(id)) {
       throw new BadRequestException(`Format d'identifiant invalide : ${id}`);
     }
@@ -75,7 +90,7 @@ export class ObjectsService {
       throw new NotFoundException(`Objet non trouvé avec l'identifiant : ${id}`);
     }
 
-    return object;
+    return this.formatObject(object);
   }
 
   /**

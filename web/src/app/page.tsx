@@ -70,9 +70,16 @@ export default function HomePage() {
     };
 
     const handleObjectCreated = (newObject: ObjectItem) => {
+      let imageUrl = newObject.imageUrl || "";
+      if (imageUrl.includes("/uploads/")) {
+        const filename = imageUrl.split("/uploads/")[1];
+        imageUrl = `${API_BASE_URL}/uploads/${filename}`;
+      }
+
       const formatted = {
         ...newObject,
         id: newObject.id || (newObject as any)._id,
+        imageUrl,
       };
 
       setObjects((prev) => {

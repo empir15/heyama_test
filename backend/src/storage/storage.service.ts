@@ -102,8 +102,12 @@ export class StorageService {
     const localFilePath = path.join(this.localUploadDir, filename);
     await fs.promises.writeFile(localFilePath, file.buffer);
 
-    const port = this.configService.get<string>('PORT', '3001');
-    const url = `http://localhost:${port}/uploads/${filename}`;
+    const baseUrl =
+      process.env.RENDER_EXTERNAL_URL ||
+      this.configService.get<string>('APP_URL', '') ||
+      `http://localhost:${this.configService.get<string>('PORT', '3001')}`;
+
+    const url = `${baseUrl.replace(/\/$/, '')}/uploads/${filename}`;
     const key = `local:${filename}`;
 
     this.logger.log(`Saved file locally: key=${key}, url=${url}`);

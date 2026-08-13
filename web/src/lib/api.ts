@@ -4,6 +4,20 @@ export const API_BASE_URL = (
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"
 ).replace(/\/$/, "");
 
+function formatItem(item: any): ObjectItem {
+  let imageUrl = item.imageUrl || "";
+  if (imageUrl.includes("/uploads/")) {
+    const filename = imageUrl.split("/uploads/")[1];
+    imageUrl = `${API_BASE_URL}/uploads/${filename}`;
+  }
+
+  return {
+    ...item,
+    id: item.id || item._id,
+    imageUrl,
+  };
+}
+
 /**
  * Fetch all objects
  */
@@ -17,10 +31,7 @@ export async function getObjects(): Promise<ObjectItem[]> {
   }
 
   const data = await response.json();
-  return data.map((item: any) => ({
-    ...item,
-    id: item.id || item._id,
-  }));
+  return data.map(formatItem);
 }
 
 /**
@@ -36,10 +47,7 @@ export async function getObjectById(id: string): Promise<ObjectItem> {
   }
 
   const item = await response.json();
-  return {
-    ...item,
-    id: item.id || item._id,
-  };
+  return formatItem(item);
 }
 
 /**
